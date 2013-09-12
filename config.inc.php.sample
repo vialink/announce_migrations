@@ -1,0 +1,6 @@
+<?php
+$rcmail_config['announce_migrations_new_skin']    = 'larry';
+$rcmail_config['announce_migrations_old_skin']    = 'default';
+$rcmail_config['announce_migrations_incremental'] = true;
+$rcmail_config['announce_migrations_min_version'] = 1;
+?>
