@@ -1,5 +1,5 @@
 <?php
-$messages['announce_continue']     = 'Continue';
-$messages['announce_cancel']       = 'Cancel';
-$messages['announce_title']        = 'Announcement';
+$messages['announce_continue'] = 'Continue';
+$messages['announce_cancel']   = 'Cancel';
+$messages['announce_ok']       = 'OK';
 ?>

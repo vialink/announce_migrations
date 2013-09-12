@@ -21,13 +21,19 @@ class announce_migrations extends rcube_plugin {
     // load settings from local config.php.inc
     $this->load_config();
 
-    // this can be modularized
-    $this->new_skin    = $rcmail->config->get('announce_migrations_new_skin');
-    $this->old_skin    = $rcmail->config->get('announce_migrations_old_skin');
-    $this->incremental = $rcmail->config->get('announce_migrations_incremental');
-    $this->min_version = $rcmail->config->get('announce_migrations_min_version');
+    $migration = $rcmail->config->get('announce_migrations_migration');
 
-    // do stuff
+    $this->migrate_skin  = array_key_exists('skin', $migration);
+    if ($this->migrate_skin) {
+      $this->new_skin    = $migration['skin']['new'];
+      $this->old_skin    = $migration['skin']['old'];
+    }
+    $this->incremental   = $migration['incremental'];
+    $this->version       = $migration['version'];
+    $this->message_title = $migration['title'];
+    $this->message_file  = $migration['message_file'];
+
+    // register hooks/actions
     $this->add_texts('localization/', true);
     $this->add_hook('ready', array($this, 'announce_migrations_init'));
     $this->register_action('plugin.announce_migrations_save', array($this, 'save_version'));
@@ -36,16 +42,21 @@ class announce_migrations extends rcube_plugin {
   function announce_migrations_init($args) {
     $rcmail = rcmail::get_instance();
 
-    $version = $rcmail->config->get('announce_version');
-    if (!$this->ok_version($version)) {
+    if (!$this->version_ok()) {
       $this->include_script('show_notification.js');
       $this->include_stylesheet('style.css');
 
-      // try to override the current skin
-      //$prev_skin = $rcmail->config->get('skin');
-      //$rcmail->config->set('skin', $this->new_skin);
-      //$curr_skin = $rcmail->config->get('skin');
-      if (method_exists($rcmail->output, 'set_skin'))
+      // process the message file and save it on a var
+      ob_start(); include $this->message_file;
+      $response = array(
+        'message'      => ob_get_clean(),
+        'title'        => $this->message_title,
+        'migrate_skin' => $this->migrate_skin
+      );
+
+      $rcmail->output->command('plugin.announce_migrations_show', $response);
+
+      if ($this->migrate_skin && method_exists($rcmail->output, 'set_skin'))
         $rcmail->output->set_skin($this->new_skin);
 
       // debug
@@ -53,10 +64,11 @@ class announce_migrations extends rcube_plugin {
     }
   }
 
-  function ok_version($version) {
+  function version_ok() {
+    $version = rcmail::get_instance()->config->get('announce_version', 0);
     return $this->incremental ?
-           $version >= $this->min_version:
-           $version == $this->min_version;
+           $version >= $this->version:
+           $version == $this->version;
   }
 
   function save_version($args) {
@@ -68,14 +80,14 @@ class announce_migrations extends rcube_plugin {
 
     // update and save preferences
     $prefs = $rcmail->user->get_prefs();
-    $prefs['skin'] = $skin;
-    $prefs['announce_version'] = $this->min_version;
+    if ($this->migrate_skin)
+      $prefs['skin'] = $skin;
+    $prefs['announce_version'] = $this->version;
     $ok = $rcmail->user->save_prefs($prefs);
     
     // update the UI
     if (!$ok)
       $rcmail->output->command('display_message', $this->gettext('internalerror'), 'error');
-
     $rcmail->output->command('plugin.announce_migrations_reload', array('ok' => $ok));
   }
 }

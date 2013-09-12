@@ -5,6 +5,7 @@ if (window.rcmail) {
     rcmail.addEventListener('plugin.log', function(response) { console.log(response); });
 
     var modal = $('<div>').attr('id', 'annouce_migrations_modal');//.addClass('tablink');
+    var open = false;
     
     function choose(option) {
       return function() {
@@ -21,36 +22,48 @@ if (window.rcmail) {
       //else modal.dialog('close');
     });
 
-    modal.dialog({
-      dialogClass: "no-close",
-      resizable: false,
-      draggable: false,
-      autoOpen:true,
-      modal: true,
-      show: {
-        effect: 'fade',
-        duration: 800,
-        easing: 'easeInCirc'
-      },
-      width:500,
-      height:300,
-      title: rcmail.gettext('announce_title', 'announce_migrations'),
-      buttons: [
-        {
-          text: rcmail.gettext('announce_continue', 'announce_migrations'),
-          click: choose('continue')
-        },
-        {
-          text: rcmail.gettext('announce_cancel', 'announce_migrations'),
-          click: choose('cancel')
+    rcmail.addEventListener('plugin.announce_migrations_show', function(response) {
+      if (!open) {
+        modal.html(response.message);
+
+        var buttons = [];
+        if (response.migrate_skin) {
+          buttons.push({
+            text: rcmail.gettext('announce_continue', 'announce_migrations'),
+            click: choose('continue')
+          });
+          buttons.push({
+            text: rcmail.gettext('announce_cancel', 'announce_migrations'),
+            click: choose('cancel')
+          });
+        } else {
+          buttons.push({
+            text: rcmail.gettext('announce_ok', 'announce_migrations'),
+            click: choose('ok')
+          });
         }
-      ]
+
+        modal.dialog({
+          dialogClass: "no-close",
+          resizable: false,
+          draggable: false,
+          autoOpen:true,
+          modal: true,
+          show: {
+            effect: 'fade',
+            duration: 800,
+            easing: 'easeInCirc'
+          },
+          width:500,
+          height:300,
+          title: response.title,
+          buttons: buttons,
+        });
+
+        open = true;
+      }
     });
 
     rcmail.add_element(modal, 'body');
-    //rcmail.register_command('plugin.announce_migration', function(){ rcmail.goto_url('plugin.announce_migration') }, true);
-    //button.bind('click', function(e){ return rcmail.command('plugin.announce_migration', this) });
-    //rcmail.add_element(tab, 'tabs');
-    //modal.dialog('open');
   })
 }

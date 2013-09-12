@@ -1,6 +1,12 @@
 <?php
-$rcmail_config['announce_migrations_new_skin']    = 'larry';
-$rcmail_config['announce_migrations_old_skin']    = 'default';
-$rcmail_config['announce_migrations_incremental'] = true;
-$rcmail_config['announce_migrations_min_version'] = 1;
+$rcmail_config['announce_migrations_migration'] = array(
+  'incremental'  => true,
+  // increment the version each time you want an announcement
+  'version'      => 1,
+  'skin'         => array('new' => 'larry', 'old' => 'default'),
+  // the message_file is relative to the plugin
+  // it's expected to be at plugin/announce_migrations/file.php
+  'title'        => 'News!',
+  'message_file' => 'message.php'
+);
 ?>
