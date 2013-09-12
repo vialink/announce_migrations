@@ -24,23 +24,39 @@ class announce_migrations extends rcube_plugin {
     // this can be modularized
     $this->new_skin    = $rcmail->config->get('announce_migrations_new_skin');
     $this->old_skin    = $rcmail->config->get('announce_migrations_old_skin');
+    $this->incremental = $rcmail->config->get('announce_migrations_incremental');
     $this->min_version = $rcmail->config->get('announce_migrations_min_version');
 
     // do stuff
     $this->add_texts('localization/', true);
-    $this->add_hook('ready', array($this, 'check_version'));
+    $this->add_hook('ready', array($this, 'announce_migrations_init'));
     $this->register_action('plugin.announce_migrations_save', array($this, 'save_version'));
   }
 
-  function check_version($args) {
+  function announce_migrations_init($args) {
     $rcmail = rcmail::get_instance();
-    $rcmail->config->set('skin', $this->new_skin);
 
     $version = $rcmail->config->get('announce_version');
-    if ($version < $this->min_version) {
+    if (!$this->ok_version($version)) {
       $this->include_script('show_notification.js');
-      $this->include_stylesheet('show_notification.css');
+      $this->include_stylesheet('style.css');
+
+      // try to override the current skin
+      //$prev_skin = $rcmail->config->get('skin');
+      //$rcmail->config->set('skin', $this->new_skin);
+      //$curr_skin = $rcmail->config->get('skin');
+      if (method_exists($rcmail->output, 'set_skin'))
+        $rcmail->output->set_skin($this->new_skin);
+
+      // debug
+      $rcmail->output->command('plugin.log', array('prev' => $prev_skin, 'curr' => $curr_skin));
     }
+  }
+
+  function ok_version($version) {
+    return $this->incremental ?
+           $version >= $this->min_version:
+           $version == $this->min_version;
   }
 
   function save_version($args) {
@@ -53,9 +69,8 @@ class announce_migrations extends rcube_plugin {
     // update and save preferences
     $prefs = $rcmail->user->get_prefs();
     $prefs['skin'] = $skin;
-    //$prefs['announce_version'] = $this->min_version;
+    $prefs['announce_version'] = $this->min_version;
     $ok = $rcmail->user->save_prefs($prefs);
-    //$ok = false;
     
     // update the UI
     if (!$ok)

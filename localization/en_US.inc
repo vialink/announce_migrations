@@ -1,6 +1,5 @@
 <?php
-$messages['Continue'] = 'Continue';
-$messages['Cancel'] = 'Cancel';
-$messages['Announcement'] = 'Announcement';
-$messages['mysqlerror'] = 'Error connecting to MySQL';
+$messages['announce_continue']     = 'Continue';
+$messages['announce_cancel']       = 'Cancel';
+$messages['announce_title']        = 'Announcement';
 ?>

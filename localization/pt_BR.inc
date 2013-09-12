@@ -1,6 +1,5 @@
 <?php
-$messages['continue'] = 'Continuar';
-$messages['cancel'] = 'Cancelar';
-$messages['announcement'] = 'Aviso';
-$messages['versionsaved'] = 'Sucesso!';
+$messages['announce_continue']     = 'Continuar';
+$messages['announce_cancel']       = 'Cancelar';
+$messages['announce_title']        = 'Aviso';
 ?>

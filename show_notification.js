@@ -2,8 +2,8 @@
 // show a message requesting to select a skin
 if (window.rcmail) {
   rcmail.addEventListener('init', function(evt) {
-    //var tab = $('<span>').attr('id', 'settingstabpluginawaymessage').addClass('tablink');
-    //var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.awaymessage').html(rcmail.gettext('awaymessage','awaymessage')).appendTo(tab);
+    rcmail.addEventListener('plugin.log', function(response) { console.log(response); });
+
     var modal = $('<div>').attr('id', 'annouce_migrations_modal');//.addClass('tablink');
     
     function choose(option) {
@@ -34,14 +34,14 @@ if (window.rcmail) {
       },
       width:500,
       height:300,
-      title: rcmail.gettext('announcement', 'announce_migrations'),
+      title: rcmail.gettext('announce_title', 'announce_migrations'),
       buttons: [
         {
-          text: rcmail.gettext('continue', 'announce_migrations'),
+          text: rcmail.gettext('announce_continue', 'announce_migrations'),
           click: choose('continue')
         },
         {
-          text: rcmail.gettext('cancel', 'announce_migrations'),
+          text: rcmail.gettext('announce_cancel', 'announce_migrations'),
           click: choose('cancel')
         }
       ]
