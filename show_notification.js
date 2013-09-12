@@ -29,22 +29,26 @@ if (window.rcmail) {
         var buttons = [];
         if (response.migrate_skin) {
           buttons.push({
-            text: rcmail.gettext('announce_continue', 'announce_migrations'),
-            click: choose('continue')
+            text: rcmail.gettext('announce_cancel', 'announce_migrations'),
+            addClass: 'btn-cancel',
+            click: choose('cancel')
           });
           buttons.push({
-            text: rcmail.gettext('announce_cancel', 'announce_migrations'),
-            click: choose('cancel')
+            text: rcmail.gettext('announce_continue', 'announce_migrations'),
+            click: choose('continue'),
+            addClass: 'btn-continue',
+            
           });
         } else {
           buttons.push({
             text: rcmail.gettext('announce_ok', 'announce_migrations'),
-            click: choose('ok')
+            click: choose('ok'),
+            addClass: 'btn-ok',
           });
         }
 
         modal.dialog({
-          dialogClass: "no-close",
+          dialogClass: "no-close buttons-right",
           resizable: false,
           draggable: false,
           autoOpen:true,
@@ -60,6 +64,8 @@ if (window.rcmail) {
           buttons: buttons,
         });
 
+        $('.ui-dialog :button').blur();
+        $('.ui-dialog .btn-ok, .ui-dialog .btn-continue').focus();
         open = true;
       }
     });
