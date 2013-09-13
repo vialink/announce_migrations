@@ -58,8 +58,8 @@ if (window.rcmail) {
             duration: 800,
             easing: 'easeInCirc'
           },
-          width:500,
-          height:300,
+          width: 400,
+          //height: 300,
           title: response.title,
           buttons: buttons,
         });
