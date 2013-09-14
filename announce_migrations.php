@@ -23,6 +23,7 @@ class announce_migrations extends rcube_plugin {
 
     $migration = $rcmail->config->get('announce_migrations_migration');
 
+    // persist needed settings
     $this->migrate_skin  = array_key_exists('skin', $migration);
     if ($this->migrate_skin) {
       $this->new_skin    = $migration['skin']['new'];
