@@ -23,12 +23,13 @@ div#annouce_migrations_modal {
 	border-color: #777777;
 }
 .ui-button.btn-continue, .ui-button.btn-ok {
-	background: #aaaaaa; /* Old browsers */
-	background: -moz-linear-gradient(top, #aaaaaa 0%, #777777 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaaaaa), color-stop(100%,#777777)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #aaaaaa 0%,#777777 100%); /* Chrome10+,Safari5.1+ */
-	background: -ms-linear-gradient(top, #aaaaaa 0%,#777777 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #aaaaaa 0%,#777777 100%); /* W3C */
+	/* due to some theme on jquery-ui using !important to override the background-image we are obliged to use it to overrider theirs */
+	background: #aaaaaa none !important; /* Old browsers */
+	background-image: -moz-linear-gradient(top, #aaaaaa 0%, #777777 100%) !important; /* FF3.6+ */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaaaaa), color-stop(100%,#777777)) !important; /* Chrome,Safari4+ */
+	background-image: -webkit-linear-gradient(top, #aaaaaa 0%,#777777 100%) !important; /* Chrome10+,Safari5.1+ */
+	background-image: -ms-linear-gradient(top, #aaaaaa 0%,#777777 100%) !important; /* IE10+ */
+	background-image: linear-gradient(to bottom, #aaaaaa 0%,#777777 100%) !important; /* W3C */
 }
 .ui-button.ui-state-default.btn-continue, .ui-button.ui-state-default.btn-ok {
 	color: #ffffff;
