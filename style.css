@@ -4,12 +4,37 @@
 .ui-dialog.no-close .ui-dialog-titlebar-close {
 	display: none;
 }
-.ui-button.ui-state-focus.btn-continue, .ui-button.ui-state-focus.btn-ok {
+/*.ui-button.ui-state-focus.btn-continue, .ui-button.ui-state-focus.btn-ok {
 	box-shadow: 0 0 2px 1px rgba(4,168,8, 0.5);
 	border-color: #04a808;
-}
-.ui-button.btn-continue, .ui-button.btn-ok {
+}*/
+/*.ui-button.btn-continue, .ui-button.btn-ok {
 	background: #58c76a;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#40d358), color-stop(100%,#66b869));
 	background: linear-gradient(top, #40d358 0%, #66b869 100%)
+}*/
+
+div#annouce_migrations_modal {
+	font-size: 1.1em;
+}
+.ui-button.ui-state-focus.btn-continue, .ui-button.ui-state-focus.btn-ok {
+	color: #ffffff;
+	box-shadow: 0 0 2px 1px rgba(40,60,40, 0.5);
+	border-color: #777777;
+}
+.ui-button.btn-continue, .ui-button.btn-ok {
+	background: #aaaaaa; /* Old browsers */
+	background: -moz-linear-gradient(top, #aaaaaa 0%, #777777 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaaaaa), color-stop(100%,#777777)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #aaaaaa 0%,#777777 100%); /* Chrome10+,Safari5.1+ */
+	background: -ms-linear-gradient(top, #aaaaaa 0%,#777777 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #aaaaaa 0%,#777777 100%); /* W3C */
+}
+.ui-button.ui-state-default.btn-continue, .ui-button.ui-state-default.btn-ok {
+	color: #ffffff;
+	text-shadow: 0 1px 1px #666666;
+	border: 1px solid #666666;
+}
+.ui-button.ui-state-hover.btn-continue, .ui-button.ui-state-hover.btn-ok {
+	color: #dddddd;
 }

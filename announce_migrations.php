@@ -57,8 +57,9 @@ class announce_migrations extends rcube_plugin {
 
       $rcmail->output->command('plugin.announce_migrations_show', $response);
 
-      if ($this->migrate_skin && method_exists($rcmail->output, 'set_skin'))
+      if ($this->migrate_skin && method_exists($rcmail->output, 'set_skin')) {
         $rcmail->output->set_skin($this->new_skin);
+      }
 
       // debug
       $rcmail->output->command('plugin.log', array('prev' => $prev_skin, 'curr' => $curr_skin));
@@ -91,5 +92,6 @@ class announce_migrations extends rcube_plugin {
       $rcmail->output->command('display_message', $this->gettext('internalerror'), 'error');
     $rcmail->output->command('plugin.announce_migrations_reload', array('ok' => $ok));
   }
+
 }
 ?>

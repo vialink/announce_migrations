@@ -58,7 +58,7 @@ if (window.rcmail) {
             duration: 800,
             easing: 'easeInCirc'
           },
-          width: 400,
+          width: 500,
           //height: 300,
           title: response.title,
           buttons: buttons,
